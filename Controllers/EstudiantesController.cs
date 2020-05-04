@@ -49,5 +49,16 @@ namespace Cei.Api.Academica.Controllers
 
             return Ok(estudiante);
         }
+
+        [HttpGet("buscar/{busqueda}")]
+        public async Task<ActionResult> GetByTextSearch(string busqueda)
+        {
+            var estudiantes = await service.GetByTextSearch("\"" + busqueda + "\"");
+
+            if (estudiantes.Count == 0)
+                return NotFound();
+
+            return Ok(estudiantes);
+        }
     }
 }
