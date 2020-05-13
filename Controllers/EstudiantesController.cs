@@ -1,20 +1,22 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Cei.Api.Common.Auth;
 using Cei.Api.Common.Models;
 using Cei.Api.Common.Services;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Cei.Api.Academica.Controllers
 {
-    [Route("api/academica/[controller]")]
+    [ApiKeyAuth]
     [ApiController]
+    [Route("api-academica/[controller]")]
     public class EstudiantesController : ControllerBase
     {
         private readonly ICrudService<Estudiante> service;
-        public EstudiantesController(ICrudService<Estudiante> estudianteService)
+        public EstudiantesController(ICrudService<Estudiante> service)
         {
-            this.service = estudianteService;
+            this.service = service;
         }
 
         [HttpGet("{id:length(24)}", Name = "GetEstudianteById")]

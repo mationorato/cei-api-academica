@@ -23,18 +23,19 @@ namespace Cei.Api.Academica
         public void ConfigureServices(IServiceCollection services)
         {
             // Settings Config            
-            services.Configure<CeiApiDbConnection>(Configuration.GetSection(nameof(CeiApiDbConnection)));
+            services.Configure<CeiApiDB>(Configuration.GetSection(nameof(CeiApiDB)));
             services.Configure<CeiApiKey>(Configuration.GetSection(nameof(CeiApiKey)));
-            services.Configure<CeiApiDbCollection>(Configuration.GetSection(nameof(CeiApiDbCollection)));
 
             // Settings Dependency Injection 
-            services.AddSingleton<ICeiApiDbConnection>(sp => sp.GetRequiredService<IOptions<CeiApiDbConnection>>().Value);
-            services.AddSingleton<ICeiApiDbCollection>(sp => sp.GetRequiredService<IOptions<CeiApiDbCollection>>().Value);
+            services.AddSingleton<ICeiApiDB>(sp => sp.GetRequiredService<IOptions<CeiApiDB>>().Value);
+            services.AddSingleton<ICeiApiKey>(sp => sp.GetRequiredService<IOptions<CeiApiKey>>().Value);
 
             // Data Access Dependency Injection 
             services.AddSingleton<ICrudService<Estudiante>, EstudianteService>();
             services.AddSingleton<ICrudService<Materia>, MateriaService>();
             services.AddSingleton<ICrudService<Curso>, CursoService>();
+            services.AddSingleton<ICrudService<Encuesta>, EncuestaService>();
+            services.AddSingleton<ICrudEncuestaRespuestaService, EncuestaRespuestaService>();
 
             // Controllers Services
             services.AddControllers();

@@ -1,15 +1,14 @@
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1 AS base
 WORKDIR /app
-EXPOSE 5000
+EXPOSE 80
+EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
 WORKDIR /src
-COPY ./cei-api-academica/Cei.Api.Academica.csproj ./cei-api-academica/
-COPY ./cei-api-common/Cei.Api.Common.csproj ./cei-api-common/
-RUN dotnet restore "./cei-api-academica/Cei.Api.Academica.csproj"
-COPY ./cei-api-academica/* ./cei-api-academica/
-COPY ./cei-api-common/* ./cei-api-common/
-WORKDIR /src/cei-api-academica
+COPY ["Cei.Api.Academica.csproj", "./"]
+RUN dotnet restore "./Cei.Api.Academica.csproj"
+COPY . .
+WORKDIR "/src/."
 RUN dotnet build "Cei.Api.Academica.csproj" -c Release -o /app/build
 
 FROM build AS publish

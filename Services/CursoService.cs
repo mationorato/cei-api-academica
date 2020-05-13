@@ -5,9 +5,8 @@ namespace Cei.Api.Academica.Services
 {
     public class CursoService : MongoCrudService<Curso>
     {
-        public CursoService(
-            ICeiApiDbConnection connection, ICeiApiDbCollection collections) :
-            base(connection, collections.CursoCollectionName)
+        public CursoService(ICeiApiDB dbSettings) :
+            base(dbSettings, dbSettings.Collections.Curso)
         {
         }
     }

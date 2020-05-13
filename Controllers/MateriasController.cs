@@ -1,26 +1,24 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Cei.Api.Common.Models;
 using Cei.Api.Common.Services;
-using Microsoft.AspNetCore.Mvc;
 using Cei.Api.Common.Auth;
-//using Common.Models;
 
 namespace Cei.Api.Academica.Controllers
 {
     [ApiKeyAuth]
     [ApiController]
-    [Route("api/academica/[controller]")]
+    [Route("api-academica/[controller]")]
     public class MateriasController : ControllerBase
     {
-        
+
         private readonly ICrudService<Materia> service;
 
-        public MateriasController(ICrudService<Materia> estudianteService)
+        public MateriasController(ICrudService<Materia> service)
         {
-            this.service = estudianteService;
+            this.service = service;
         }
 
         [HttpGet("{id:length(24)}", Name = "GetMateriaById")]
@@ -37,6 +35,9 @@ namespace Cei.Api.Academica.Controllers
         [HttpGet("codigo/{codigo}")]
         public async Task<ActionResult> GetByCodigo(string codigo)
         {
+            if (!codigo.Contains("."))
+                codigo = codigo.Insert(2, ".");
+
             var materia = await this.service.GetFirstAsync(m => m.Codigo == codigo);
 
             if (materia == null)
