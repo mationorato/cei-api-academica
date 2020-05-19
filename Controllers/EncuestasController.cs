@@ -43,19 +43,40 @@ namespace Cei.Api.Academica.Controllers
             return Ok(encuesta);
         }
 
+        [HttpGet("nombre/{nombre}")]
+        public async Task<ActionResult> GetByNombre(string nombre)
+        {
+            var encuesta = await this.service.GetFirstAsync(
+                e => e.Nombre == nombre
+            );
+
+            if (encuesta == null)
+                return NotFound();
+
+            return Ok(encuesta);
+        }
+
         [HttpPost]
         public async Task<ActionResult> Create(Encuesta encuesta)
         {
-            try
-            {
-                await this.service.CreateAsync(encuesta);
-            }
-            catch (MongoWriteException error)
-            {
-                return BadRequest(error.WriteError.Message);
-            }
+            await this.service.CreateAsync(encuesta);
 
             return CreatedAtRoute("GetEncuestaById", new { id = encuesta.Id }, encuesta);
+        }
+
+        [HttpPut("{id:length(24)}")]
+        public async Task<ActionResult> Update(string id, Encuesta encuesta)
+        {
+            if (id != encuesta.Id)
+                return BadRequest(
+                    new { message = "El id de la ruta no se corresponde con el del modelo enviado" }
+                );
+
+            var result = await this.service.UpdateAsync(id, encuesta);
+            if (result != null)
+                return Ok(result);
+            else
+                return NotFound();
         }
     }
 }

@@ -4,9 +4,9 @@
     <UserSecretsId>e949cf3e-3def-4678-8e4b-fcc4e9242c8f</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Cei.Api.Common" Version="1.0.0"/>
+    <PackageReference Include="Cei.Api.Common" Version="1.0.2"/>
   </ItemGroup>
-  <!-- <ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="../cei-api-common/Cei.Api.Common.csproj" />
-  </ItemGroup> -->
+  </ItemGroup>
 </Project>
